@@ -26,27 +26,36 @@ setInterval(ApiConnector.getStocks((response) => {
 
 const moneyOperation = new MoneyManager();
 moneyOperation.addMoneyCallback = (data) => ApiConnector.addMoney(data, (response) => {
+	    let resultMessage = "";
 		if (response.success == true) {
 			ProfileWidget.showProfile(response.data);
+			resultMessage = "Пополнение счета успешно выполнено";			
 		} else {
-			moneyOperation.setMessage(response.success,response.error)
+			resultMessage = response.error;
 		}
-	});
+		moneyOperation.setMessage(response.success,resultMessage)
+	});resultMessage
 
 moneyOperation.conversionMoneyCallback = (data) => ApiConnector.convertMoney(data, (response) => {
-		if (response.success == true) {
+	    let resultMessage = "";
+		if (response.success == true) {			
 			ProfileWidget.showProfile(response.data);
+			resultMessage = "Конвертация успешно выполнена";
 		} else {
-			moneyOperation.setMessage(response.success,response.error)
+			resultMessage = response.error;
 		}
+		moneyOperation.setMessage(response.success,resultMessage)
 	});
 
 moneyOperation.sendMoneyCallback = (data) => ApiConnector.transferMoney(data, (response) => {
+	    let resultMessage = "";
 		if (response.success == true) {
 			ProfileWidget.showProfile(response.data);
+			resultMessage = "Перевод успешно выполнен";
 		} else {
-			moneyOperation.setMessage(response.success,response.error)
+			resultMessage = response.error;
 		}
+		moneyOperation.setMessage(response.success,resultMessage)
 	});
 
 
@@ -60,21 +69,27 @@ ApiConnector.getFavorites((response) => {
 })
 
 personList.addUserCallback = (data) => ApiConnector.addUserToFavorites(data, (response) => {
+	let resultMessage = "";
 	if (response.success == true) {
 			personList.clearTable();
 			personList.fillTable(response.data);
 			moneyOperation.updateUsersList(response.data);
+			resultMessage = "Добавление пользователя успешно выполнено";
 		} else {
-			personList.setMessage(response.success,response.error)
+			resultMessage = response.error;
 		}
+		personList.setMessage(response.success,resultMessage)
 	});
 
 personList.removeUserCallback = (data) => ApiConnector.removeUserFromFavorites(data, (response) => {
+	let resultMessage = "";
 	if (response.success == true) {
 			personList.clearTable();
 			personList.fillTable(response.data);
 			moneyOperation.updateUsersList(response.data);
+			resultMessage = "Удаление пользователя успешно выполнено";
 		} else {
-			personList.setMessage(response.success,response.error)
+			resultMessage = response.error;
 		}
+		personList.setMessage(response.success,resultMessage)
 	});
